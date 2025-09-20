@@ -1,0 +1,4 @@
+fastapi
+uvicorn
+docker
+openai   # for Qwen3 if you run it via OpenAI API compat (Ollama/vLLM can mimic this)
