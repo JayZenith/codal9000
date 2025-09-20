@@ -1,18 +1,14 @@
-FROM python:3.7
+FROM python:3.10
 
-ENV PYTHONPATH=/usr/local/lib/python/3.7/site-packages:/etc/security/bashrc:/etc/profile/bin:/usr/local/sbin:/usr/local/bin:/usr/bin:/bin:/sbin:/root/bin:/usr/lib/x86_64-linux-gnu:/opt/webapp/bin
+WORKDIR /app
 
+COPY requirements.txt ./
 RUN pip install -r requirements.txt
+
+RUN apt-get update && apt-get install -y build-essential python-psycopg2 && rm -rf /var/lib/apt/lists/*
 
 COPY . /app/
 
 EXPOSE 5000
 
-RUN apt-get update && \
-    apt-get install --no-cache-dir build-essential \
-    python-bcrypt python-jose python-dateutil python-postgresql python-psycopg2 python-virtualenv \
-    python-dotenv
-
-COPY . /app/
-
-RUN rm -rf /var/lib/flask/
+CMD ["python", "app.py"]
